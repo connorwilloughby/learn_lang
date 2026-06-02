@@ -1,5 +1,8 @@
 {
     "python.analysis.autoImportCompletions": true,
     "ruff.organizeImports": true,
-    "ruff.importStrategy": "fromEnvironment"
+    "ruff.importStrategy": "fromEnvironment",
+    "cSpell.words": [
+        "distiluse"
+    ]
 }
