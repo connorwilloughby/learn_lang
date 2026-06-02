@@ -40,7 +40,7 @@ class GameInterface:
     def menu(
         self,
     ) -> None:
-        """First screen used to route the user between the"""
+        """First screen used to route the user between the options available in the programme"""
 
         self._display(self.menu_view)
 
@@ -75,5 +75,4 @@ if __name__ == "__main__":
     translation = TranslationResponse(
         accuracy=True, user_solution="house", synonyms=["home", "place"]
     )
-
     GameInterface().review(translation)

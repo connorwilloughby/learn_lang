@@ -9,7 +9,7 @@ class Translator:
         self.model = SentenceTransformer("distiluse-base-multilingual-cased-v2")
 
     def translate(self, a: str, b: str):
-        """Taking the two paramaters and evaluating the strenght of the translation within it"""
+        """Taking the two parameters and evaluating the strength of the translation within it"""
 
         v1 = self.model.encode(a)
         v2 = self.model.encode(b)
