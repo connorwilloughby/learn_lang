@@ -10,7 +10,6 @@ class Translator:
 
     def translate(self, a: str, b: str):
         """Taking the two parameters and evaluating the strength of the translation within it"""
-
         v1 = self.model.encode(a)
         v2 = self.model.encode(b)
 

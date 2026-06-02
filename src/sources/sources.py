@@ -1,9 +1,7 @@
 import pandas as pd
-
 from datasets import load_dataset
 
 from src.config.config import ConfigWork
-
 
 shared_config = ConfigWork
 
@@ -18,13 +16,12 @@ class HuggingFaceSource:
 
     def download(self):
         """Returns the file from HF and saves it to the disk"""
-
         raw = load_dataset(self.source_location)
 
         raw.save_to_disk(self.save_location)
 
-    def load(self):
-
+    def load(self) -> pd.DataFrame:
+        """Returns the data set a `pd.DataFrame`"""
         return pd.read_parquet(self.save_location, engine="pyarrow")
 
 
@@ -59,13 +56,15 @@ class TargetSentences:
         )
 
         # this is needed as the set has two paths that it can fall down
-        return set.drop_duplicates(subset=["sentence_es"], keep="first")
+        set.drop_duplicates(subset=["sentence_es"], keep="first")
+
+        return set.sample(frac=1)
 
 
 if __name__ == "__main__":
     s = TargetSentences().load()
-    _ = TargetWords().download()
-    w = TargetWords().load()
+    # _ = TargetWords().download()
+    # w = TargetWords().load()
     # _ = TargetSentences().download()
 
     breakpoint()

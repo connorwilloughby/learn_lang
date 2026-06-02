@@ -2,14 +2,15 @@ from typing import Generator
 
 import pandas as pd
 
-from src.sources.sources import TargetSentences, TargetWords
 from src.models.models import Question
+from src.sources.sources import TargetSentences, TargetWords
 
 
 class QuestionEngine:
     """Returns questions for the user to respond to.
 
-    Is the core gameplay loop."""
+    Is the core gameplay loop.
+    """
 
     def __init__(self, target: str = "sentences") -> None:
 
@@ -18,9 +19,8 @@ class QuestionEngine:
         elif target == "sentences":
             self.questions: pd.DataFrame = TargetSentences().load()
 
-    def get_question(self) -> Generator[Question]:
+    def get_question(self) -> Generator[Question, Question, Question]:
         """Returns a question from a given dataset."""
-
         for question in self.questions.iterrows():
             data_row = question[1]
             yield Question(problem=data_row.sentence_es, solution=data_row.sentence_en)

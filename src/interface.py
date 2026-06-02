@@ -40,19 +40,16 @@ class GameInterface:
         self,
     ) -> None:
         """First screen used to route the user between the options available in the programme"""
-
         self._display(self.menu_view)
 
     def question(self, question: Question) -> str:
         """Sends the current question to the user"""
-
         question_screen = self.question_view.format(question=question.problem)
 
         return self._display(question_screen)
 
     def review(self, review: TranslationResponse):
         """We inform the user on the accuracy of their solution."""
-
         clean_synonyms = ", ".join(review.synonyms)
 
         return self._display(
