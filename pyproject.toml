@@ -1,7 +1,7 @@
 [project]
 name = "learn-lang"
 version = "0.1.0"
-description = "Add your description here"
+description = "A tool used to help improve vocab and reading comprehension"
 readme = "README.md"
 requires-python = ">=3.14"
 dependencies = [
@@ -12,3 +12,22 @@ dependencies = [
     "ruff>=0.15.2",
     "sentence-transformers>=5.2.3",
 ]
+
+[tool.ruff]
+line-length = 88
+select = [
+    "E", # pycodestyle errors
+    "F", # pyflakes errors
+    "I", # import-related checks
+    "C", # cyclomatic complexity & code style
+    "B", # flake8-bugbear style checks
+    "D", # documentation
+]
+ignore = [
+    "D400",
+    "D107",
+    "D415",
+    "D100" # should probably remove this later
+]
+target-version = "py314"
+exclude = ["__pycache__", ".venv", "build", "dist"]
