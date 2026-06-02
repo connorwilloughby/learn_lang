@@ -47,7 +47,7 @@ class TargetSentences:
 
     def load(self) -> pd.DataFrame:
 
-        return pd.read_csv(
+        set = pd.read_csv(
             self.save_location,
             sep="\t",
             names=[
@@ -57,6 +57,9 @@ class TargetSentences:
                 "sentence_en",
             ],
         )
+
+        # this is needed as the set has two paths that it can fall down
+        return set.drop_duplicates(subset=["sentence_es"], keep="first")
 
 
 if __name__ == "__main__":
