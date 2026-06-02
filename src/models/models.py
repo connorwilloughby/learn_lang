@@ -1,3 +1,5 @@
+from typing import Optional
+
 from pydantic import BaseModel
 
 
@@ -8,8 +10,9 @@ class PlayerStatistics(BaseModel):
 
 
 class Question(BaseModel):
-    target_word: str
-    answer: str
+    problem: str
+    solution: str
+    # alternatives: Optional[str]
 
 
 class TranslationInput(BaseModel):

@@ -31,7 +31,6 @@ class GameInterface:
     @staticmethod
     def _display(content: str):
 
-        sys.stdout.write("\033[2J\033[H")
         sys.stdout.write(content)
         sys.stdout.flush()
 
@@ -47,7 +46,7 @@ class GameInterface:
     def question(self, question: Question) -> str:
         """Sends the current question to the user"""
 
-        question_screen = self.question_view.format(question=question.target_word)
+        question_screen = self.question_view.format(question=question.problem)
 
         return self._display(question_screen)
 
@@ -68,11 +67,12 @@ class GameInterface:
 if __name__ == "__main__":
     GameInterface().menu()
 
-    question_data = Question(target_word="Casa", answer="House")
+    question_data = Question(problem="Casa", solution="House")
 
     stage = GameInterface().question(question_data)
 
     translation = TranslationResponse(
         accuracy=True, user_solution="house", synonyms=["home", "place"]
     )
+
     GameInterface().review(translation)

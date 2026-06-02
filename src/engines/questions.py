@@ -1,28 +1,37 @@
+from typing import Generator
+
 import pandas as pd
 
-from src.engines.data_loads import TargetWords
+from src.sources.sources import TargetSentences, TargetWords
 from src.models.models import Question
 
 
 class QuestionEngine:
+    """Returns questions for the user to respond to.
 
-    def __init__(self) -> None:
+    Is the core gameplay loop."""
 
-        self.questions: pd.DataFrame = TargetWords().load()
+    def __init__(self, target: str = "sentences") -> None:
 
-    def get_question(self):
+        if target == "words":
+            self.questions: pd.DataFrame = TargetWords().load()
+        elif target == "sentences":
+            self.questions: pd.DataFrame = TargetSentences().load()
+
+    def get_question(self) -> Generator[Question]:
+        """Returns a question from a given dataset."""
 
         for question in self.questions.iterrows():
+            data_row = question[1]
+            yield Question(problem=data_row.sentence_es, solution=data_row.sentence_en)
 
-            yield Question(target_word=question[1].word, answer="BREAK")
 
 if __name__ == "__main__":
+    questions = QuestionEngine(target="words")
 
-    questions = QuestionEngine()
+    this_question = questions.get_question()
 
-    this_quetion = questions.get_question()
-
-    a = next(this_quetion)
-    b = next(this_quetion)
+    a = next(this_question)
+    b = next(this_question)
 
     breakpoint()

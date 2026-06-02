@@ -35,7 +35,7 @@ class GameManager:
             # attempt a translation
             correct_translation = self._translation_grade(
                 score=self.translation_engine.translate(
-                    user_response, question.target_word
+                    user_response, question.problem
                 )
             )
 
