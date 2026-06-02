@@ -9,7 +9,13 @@ class Translator:
         self.model = SentenceTransformer("distiluse-base-multilingual-cased-v2")
 
     def translate(self, a: str, b: str):
-        """Taking the two parameters and evaluating the strength of the translation within it"""
+        """Determine the quality of a translation
+
+        Args:
+            a: str
+            b: str
+
+        """
         v1 = self.model.encode(a)
         v2 = self.model.encode(b)
 
@@ -19,7 +25,6 @@ class Translator:
 
 
 if __name__ == "__main__":
-
     t_engine = Translator()
 
     string_1 = t_engine.translate("casa", "house")

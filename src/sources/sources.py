@@ -15,13 +15,13 @@ class HuggingFaceSource:
         self.save_location = f"./{save_location}"
 
     def download(self):
-        """Returns the file from HF and saves it to the disk"""
+        """Return the file from HF and saves it to the disk"""
         raw = load_dataset(self.source_location)
 
         raw.save_to_disk(self.save_location)
 
     def load(self) -> pd.DataFrame:
-        """Returns the data set a `pd.DataFrame`"""
+        """Return the data set a `pd.DataFrame`"""
         return pd.read_parquet(self.save_location, engine="pyarrow")
 
 
