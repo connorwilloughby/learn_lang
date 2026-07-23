@@ -32,17 +32,18 @@ class GameManager:
             # ask a question
             user_response = GameInterface().question(question)
 
-            # attempt a translation
-            correct_translation = self._translation_grade(
-                score=self.translation_engine.translate(user_response, question.problem)
-            )
+            # score the translation
+            score = self.translation_engine.translate(user_response, question.problem)
+
+            # convert the score to bool
+            correct_translation = self._translation_grade(score)
 
             #  review the attempt
             GameInterface().review(
                 TranslationResponse(
-                    accuracy=correct_translation,
+                    accuracy=score.T,
                     user_solution=user_response,
-                    synonyms=["home", "place"],
+                    solution=question.solution,
                 )
             )
 

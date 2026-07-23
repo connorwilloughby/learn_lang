@@ -15,14 +15,14 @@ class GameInterface:
 """
 
         self.question_view = """\
-    Translate: {question},
+    Translate: {question}
 
 """
 
         self.review_view = """\
     {user_answer} is {accuracy}.
 
-    Other answers could have been {synonyms}
+    We were expecting: {solution}
 
     Press any key to continue.
 
@@ -39,23 +39,27 @@ class GameInterface:
     def menu(
         self,
     ) -> None:
-        """First screen used to route the user between the options available in the programme"""
+        """Show the first screen
+
+        Used to route the user between the options available in the programme
+        """
         self._display(self.menu_view)
 
     def question(self, question: Question) -> str:
-        """Sends the current question to the user"""
+        """Show a question to the user"""
         question_screen = self.question_view.format(question=question.problem)
 
         return self._display(question_screen)
 
     def review(self, review: TranslationResponse):
-        """We inform the user on the accuracy of their solution."""
+        """Show the user the accuracy of their solution"""
         clean_synonyms = ", ".join(review.synonyms)
 
         return self._display(
             self.review_view.format(
                 user_answer=review.user_solution,
                 accuracy=review.accuracy,
+                solution=review.solution,
                 synonyms=clean_synonyms,
             )
         )
