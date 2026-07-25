@@ -9,7 +9,6 @@ uv sync
 uv run -m src.main
 ```
 
-
 ## Data Sources
 
- - [Tatoeba](https://tatoeba.org/en/downloads)
+- [Tatoeba](https://tatoeba.org/en/downloads)
