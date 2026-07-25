@@ -30,7 +30,8 @@ class GameInterface:
 
     @staticmethod
     def _display(content: str):
-
+        sys.stdout.write("\033[2J\033[H")
+        sys.stdout.flush()
         sys.stdout.write(content)
         sys.stdout.flush()
 
