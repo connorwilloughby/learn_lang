@@ -11,7 +11,12 @@ class ConfigWork:
     WORD_SOURCE: str = "omar95/wikimedia_es_words_filtered_only_spanish_letters/data/train-00000-of-00001.parquet"
     WORD_WRITE_LOCATION: str = "data/words/word_sources.arrow"
 
+    # used to track learning progression
+    LOCAL_DB_PATH: str = "data/db/database.db"
+    LOCAL_DB_INIT_SQL_PATH: str = "data/db/init.sql"
+
     def log(self):
+        """"""
 
         string = f"""All config: 
 
