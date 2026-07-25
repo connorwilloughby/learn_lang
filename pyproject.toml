@@ -11,11 +11,16 @@ dependencies = [
     "pytest>=9.0.2",
     "ruff>=0.15.2",
     "sentence-transformers>=5.2.3",
+    "sqlalchemy>=2.0.51",
+    "transformers>=5.2.0",
 ]
+
+[tool.formatting]
+line-length=100
 
 [tool.ruff]
 line-length = 88
-select = [
+lint.select = [
     "E", # pycodestyle errors
     "F", # pyflakes errors
     "I", # import-related checks
@@ -23,7 +28,7 @@ select = [
     "B", # flake8-bugbear style checks
     "D", # documentation
 ]
-ignore = [
+lint.ignore = [
     "D400",
     "D107",
     "D415",
