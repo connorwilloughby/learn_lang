@@ -2,7 +2,7 @@
 
 import sys
 
-from src.models.models import Question, TranslationResponse
+from src.types.models import Question, TranslationResponse
 
 
 class GameInterface:

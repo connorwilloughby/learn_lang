@@ -1,10 +1,10 @@
 import numpy as np
+from src.models.models import TranslationResponse
 
 from src.config.config import ConfigWork
 from src.engines.questions import QuestionEngine
 from src.engines.translate import Translator
 from src.interface import GameInterface
-from src.models.models import TranslationResponse
 
 
 class GameManager:
