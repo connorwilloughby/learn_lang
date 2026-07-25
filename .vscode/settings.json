@@ -4,5 +4,6 @@
     "ruff.importStrategy": "fromEnvironment",
     "cSpell.words": [
         "distiluse"
-    ]
+    ],
+    "editor.inlineSuggest.enabled": false
 }
