@@ -7,6 +7,7 @@ from src.engines.translate import Translator
 from src.interface import GameInterface
 from src.types.models import TranslationResponse
 
+CONFIG = ConfigWork()
 
 class GameManager:
     """Instructs all child classes and orchestrates the game"""
@@ -21,7 +22,7 @@ class GameManager:
     @staticmethod
     def _translation_grade(score: np.float32) -> bool:
 
-        return score >= ConfigWork.TRANSLATION_PASSING_GRADE
+        return bool(score >= CONFIG.TRANSLATION_PASSING_GRADE)
 
     def handle(self):
         """Manage the main gameplay loop"""
