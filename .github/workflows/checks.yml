@@ -30,4 +30,4 @@ jobs:
 
       - name: check unittests
         run: |
-          uv run coverage run -m unittest discover
+          uv run coverage run -m unittest discover -s tests
