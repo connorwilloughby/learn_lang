@@ -1,9 +1,9 @@
-from models.question_types import Question
 from typing import Generator
 
 import pandas as pd
 from torch import Value
 
+from models.question_types import Question
 from sources.sources import TargetSentences, TargetWords
 
 
