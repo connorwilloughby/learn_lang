@@ -52,5 +52,7 @@ if __name__ == "__main__":
 
     a = next(this_question)
     b = next(this_question)
+    c = next(this_question)
+    d = next(this_question)
 
     breakpoint()

@@ -32,10 +32,13 @@ class GameManager:
     def handle(self):
         """Manage the main gameplay loop"""
         GameInterface().menu()
-
+    
+        # allow the itterator to persist across questions
+        question_state =self.question_engine.get_question() 
+ 
         while True:
             # prepare a question
-            question = next(self.question_engine.get_question())
+            question = next(question_state)
             stats = self.statistics.get_problem_stats(problem_id=question.problem_id)
 
             # ask a question
