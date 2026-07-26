@@ -4,7 +4,7 @@ from src.config.config import ConfigWork
 from src.engines.questions import QuestionEngine
 from src.engines.tracking import Tracker
 from src.engines.translate import Translator
-from src.interface import GameInterface
+from interfaces.console import ConsoleInterface
 from src.types.models import TranslationResponse
 
 CONFIG = ConfigWork()
@@ -18,7 +18,7 @@ class GameManager:
         self.question_engine = QuestionEngine()
         self.translation_engine = Translator()
         self.statistics = Tracker()
-        self.interface = GameInterface()
+        self.interface = ConsoleInterface()
 
     @staticmethod
     def _translation_grade(score: np.float32) -> bool:
@@ -31,7 +31,7 @@ class GameManager:
 
     def handle(self):
         """Manage the main gameplay loop"""
-        GameInterface().menu()
+        ConsoleInterface().menu()
 
         # allow the itterator to persist across questions
         question_state = self.question_engine.get_question()
@@ -42,7 +42,7 @@ class GameManager:
             stats = self.statistics.get_problem_stats(problem_id=question.problem_id)
 
             # ask a question
-            user_response = GameInterface().question(question=question, stats=stats)
+            user_response = ConsoleInterface().question(question=question, stats=stats)
 
             # score the translation
             score = self.translation_engine.translate(user_response, question.problem)

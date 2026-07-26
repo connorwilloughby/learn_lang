@@ -5,7 +5,7 @@ import sys
 from src.types.models import Question, QuestionStats, TranslationResponse
 
 
-class GameInterface:
+class ConsoleInterface:
     """Update the STDOUT with information from the game engine"""
 
     def __init__(
@@ -75,16 +75,16 @@ class GameInterface:
 
 
 if __name__ == "__main__":
-    GameInterface().menu()
+    ConsoleInterface().menu()
 
     stats = QuestionStats(problem_id=1, correct_count=1, fail_count=1, pass_rate=0.5, attempts=2)
 
     question = Question(problem_id=1, problem="Casa", solution="House")
 
-    stage = GameInterface().question(question=question, stats=stats)
+    stage = ConsoleInterface().question(question=question, stats=stats)
 
     translation = TranslationResponse(
         accuracy=True, user_solution="house", synonyms=["home", "place"]
     )
 
-    GameInterface().review(translation)
+    ConsoleInterface().review(translation)
