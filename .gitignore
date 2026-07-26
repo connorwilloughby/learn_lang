@@ -1,5 +1,6 @@
 # internal ignores
 /data/sentences/**.**
+/data/db/database.db
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
