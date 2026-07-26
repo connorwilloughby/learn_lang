@@ -2,7 +2,7 @@
 
 import sys
 
-from src.types.models import Question, TranslationResponse, QuestionStats
+from src.types.models import Question, QuestionStats, TranslationResponse
 
 
 class GameInterface:
@@ -50,7 +50,6 @@ class GameInterface:
 
     def question(self, question: Question, stats: QuestionStats | None) -> str:
         """Show a question to the user"""
-
         if stats is None:
             attempts = "0"
             pass_rate = "?"

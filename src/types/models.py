@@ -27,7 +27,6 @@ class Question(BaseModel):
     solution: str
 
 
-
 class QuestionStats(BaseModel):
     """User history statistics within a given probelem!"""
 
@@ -36,7 +35,6 @@ class QuestionStats(BaseModel):
     fail_count: int
     attempts: int
     pass_rate: float
-
 
 
 class TranslationInput(BaseModel):
@@ -53,4 +51,3 @@ class TranslationResponse(BaseModel):
     user_solution: str
     solution: str
     synonyms: Optional[list[str]] = [""]
-

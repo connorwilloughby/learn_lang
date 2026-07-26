@@ -2,8 +2,8 @@ import numpy as np
 
 from src.config.config import ConfigWork
 from src.engines.questions import QuestionEngine
-from src.engines.translate import Translator
 from src.engines.tracking import Tracker
+from src.engines.translate import Translator
 from src.interface import GameInterface
 from src.types.models import TranslationResponse
 
@@ -37,13 +37,15 @@ class GameManager:
 
             # score the translation
             score = self.translation_engine.translate(user_response, question.problem)
-        
+
             # TODO: tell the user if it was right...
             # convert the score to bool
             accurate_translation = self._translation_grade(score)
-           
+
             # record this result
-            self.statistics.add_problem(problem_id=question.problem_id,correct=accurate_translation)
+            self.statistics.add_problem(
+                problem_id=question.problem_id, correct=accurate_translation
+            )
 
             #  review the attempt
             self.interface.review(
