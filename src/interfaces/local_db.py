@@ -1,11 +1,11 @@
 import sqlalchemy
 
-from src.config.config import ConfigWork
+from config.config import ConfigWork
 
 CONFIG = ConfigWork()
 
 
-class LocalDb:
+class LocalDbInterface:
     """Small SQLite helper for storing and reading long term content"""
 
     def __init__(self):

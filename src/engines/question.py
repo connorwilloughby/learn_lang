@@ -1,10 +1,10 @@
+from models.question_types import Question
 from typing import Generator
 
 import pandas as pd
 from torch import Value
 
-from src.sources.sources import TargetSentences, TargetWords
-from src.types.models import Question
+from sources.sources import TargetSentences, TargetWords
 
 
 class QuestionEngine:

@@ -2,7 +2,8 @@
 
 import sys
 
-from src.types.models import Question, QuestionStats, TranslationResponse
+from models.question_types import Question, QuestionStats
+from models.translation_types import TranslationResponse
 
 
 class ConsoleInterface:
