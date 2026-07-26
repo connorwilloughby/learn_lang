@@ -18,7 +18,6 @@ class ConsoleInterface:
         self.question_view = """    Attempts: {attempts} Success rate: {pass_rate}
     Themes: add_me
     Translate: {question}
-
 """
 
         self.review_view = """  {user_answer} is {accuracy}.
@@ -26,17 +25,14 @@ class ConsoleInterface:
     We were expecting: {solution}
 
     Press any key to continue.
-
 """
-
     @staticmethod
     def _display(content: str):
-        sys.stdout.write("\033[2J\033[H")
-        sys.stdout.flush()
+        sys.stdout.write("\033[H\033[J")
         sys.stdout.write(content)
         sys.stdout.flush()
 
-        return input(": ")
+        return input("\t: ")
 
     def menu(
         self,
