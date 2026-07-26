@@ -65,7 +65,7 @@ class LocalDb:
 
         return rows
 
-    def _select(self, query: str, params: str = None):
+    def _select(self, query: str, params: dict | None = None):
         """Run a read query and return the result rows as dictionaries.
 
         :param query: SQL query to execute.
@@ -80,7 +80,7 @@ class LocalDb:
 
         return rows
 
-    def _delete(self, query: str, params: dict = None):
+    def _delete(self, query: str, params: dict | None = None):
         """Delete rows from the database and return the affected count.
 
         :param query: SQL delete statement to execute.

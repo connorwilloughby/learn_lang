@@ -11,20 +11,16 @@ class GameInterface:
     def __init__(
         self,
     ):
-        self.menu_view = """\
-    Press any key to begin the game
-
+        self.menu_view = """Press any key to begin the game
 """
 
-        self.question_view = """\
-    Attempts: {attempts} Success rate: {pass_rate}
+        self.question_view = """    Attempts: {attempts} Success rate: {pass_rate}
     Themes: add_me
     Translate: {question}
 
 """
 
-        self.review_view = """\
-    {user_answer} is {accuracy}.
+        self.review_view = """  {user_answer} is {accuracy}.
 
     We were expecting: {solution}
 

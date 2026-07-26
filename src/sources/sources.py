@@ -55,6 +55,7 @@ class TargetSentences:
             ],
         )
 
+        # HACK: this is likely going to cause issues later with alternative options
         # this is needed as the set has two paths that it can fall down
         set.drop_duplicates(subset=["sentence_es"], keep="first")
 
