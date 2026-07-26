@@ -9,6 +9,7 @@ from src.types.models import TranslationResponse
 
 CONFIG = ConfigWork()
 
+
 class GameManager:
     """Instructs all child classes and orchestrates the game"""
 
@@ -21,21 +22,20 @@ class GameManager:
 
     @staticmethod
     def _translation_grade(score: np.float32) -> bool:
-        """Evaluate if a given score should be considered as a pass 
+        """Evaluate if a given score should be considered as a pass
 
         Params:
             :param score np.float32
         """
-
         return bool(score >= CONFIG.TRANSLATION_PASSING_GRADE)
 
     def handle(self):
         """Manage the main gameplay loop"""
         GameInterface().menu()
-    
+
         # allow the itterator to persist across questions
-        question_state =self.question_engine.get_question() 
- 
+        question_state = self.question_engine.get_question()
+
         while True:
             # prepare a question
             question = next(question_state)
