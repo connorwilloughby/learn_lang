@@ -21,6 +21,11 @@ class GameManager:
 
     @staticmethod
     def _translation_grade(score: np.float32) -> bool:
+        """Evaluate if a given score should be considered as a pass 
+
+        Params:
+            :param score np.float32
+        """
 
         return bool(score >= CONFIG.TRANSLATION_PASSING_GRADE)
 
