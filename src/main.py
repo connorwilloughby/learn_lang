@@ -43,7 +43,7 @@ class GameManager:
             accurate_translation = self._translation_grade(score)
 
             # record this result
-            self.statistics.add_problem(
+            self.statistics.upsert_problem_stats(
                 problem_id=question.problem_id, correct=accurate_translation
             )
 
