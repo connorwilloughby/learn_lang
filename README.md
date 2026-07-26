@@ -6,7 +6,7 @@
 
 Want to learn a language? Hate paying for subscription services? Are you a nerd?  
 
-This repo can solve two of your three problems. The aim for this project is to get a lightweight tool 
+This repo can solve two of your three problems. The aim for this project is to get a lightweight tool which lets you quickly drill problems in your target language. 
 
 ## getting started 
 
