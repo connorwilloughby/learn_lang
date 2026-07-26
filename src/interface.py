@@ -2,10 +2,12 @@
 
 import sys
 
-from src.models.models import Question, TranslationResponse
+from src.types.models import Question, QuestionStats, TranslationResponse
 
 
 class GameInterface:
+    """Update the STDOUT with information from the game engine"""
+
     def __init__(
         self,
     ):
@@ -15,14 +17,16 @@ class GameInterface:
 """
 
         self.question_view = """\
-    Translate: {question},
+    Attempts: {attempts} Success rate: {pass_rate}
+    Themes: add_me
+    Translate: {question}
 
 """
 
         self.review_view = """\
     {user_answer} is {accuracy}.
 
-    Other answers could have been {synonyms}
+    We were expecting: {solution}
 
     Press any key to continue.
 
@@ -30,8 +34,8 @@ class GameInterface:
 
     @staticmethod
     def _display(content: str):
-
         sys.stdout.write("\033[2J\033[H")
+        sys.stdout.flush()
         sys.stdout.write(content)
         sys.stdout.flush()
 
@@ -40,26 +44,35 @@ class GameInterface:
     def menu(
         self,
     ) -> None:
-        """First screen used to route the user between the"""
+        """Show the first screen
 
+        Used to route the user between the options available in the programme
+        """
         self._display(self.menu_view)
 
-    def question(self, question: Question) -> str:
-        """Sends the current question to the user"""
+    def question(self, question: Question, stats: QuestionStats | None) -> str:
+        """Show a question to the user"""
+        if stats is None:
+            attempts = "0"
+            pass_rate = "?"
+        else:
+            attempts = stats.attempts
+            pass_rate = stats.pass_rate
 
-        question_screen = self.question_view.format(question=question.target_word)
-
+        question_screen = self.question_view.format(
+            question=question.problem, attempts=attempts, pass_rate=pass_rate
+        )
         return self._display(question_screen)
 
     def review(self, review: TranslationResponse):
-        """We inform the user on the accuracy of their solution."""
-
+        """Show the user the accuracy of their solution"""
         clean_synonyms = ", ".join(review.synonyms)
 
         return self._display(
             self.review_view.format(
                 user_answer=review.user_solution,
                 accuracy=review.accuracy,
+                solution=review.solution,
                 synonyms=clean_synonyms,
             )
         )
@@ -68,9 +81,11 @@ class GameInterface:
 if __name__ == "__main__":
     GameInterface().menu()
 
-    question_data = Question(target_word="Casa", answer="House")
+    stats = QuestionStats(problem_id=1, correct_count=1, fail_count=1, pass_rate=0.5, attempts=2)
 
-    stage = GameInterface().question(question_data)
+    question = Question(problem_id=1, problem="Casa", solution="House")
+
+    stage = GameInterface().question(question=question, stats=stats)
 
     translation = TranslationResponse(
         accuracy=True, user_solution="house", synonyms=["home", "place"]
