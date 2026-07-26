@@ -15,6 +15,7 @@ class GameManager:
         self.question_engine = QuestionEngine().get_question()
 
         self.translation_engine = Translator()
+        self.interface = GameInterface()
 
     @staticmethod
     def _translation_grade(score: np.float32) -> bool:
@@ -39,7 +40,7 @@ class GameManager:
             correct_translation = self._translation_grade(score)
 
             #  review the attempt
-            GameInterface().review(
+            self.interface.review(
                 TranslationResponse(
                     accuracy=score.T,
                     user_solution=user_response,
