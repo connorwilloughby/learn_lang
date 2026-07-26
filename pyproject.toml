@@ -28,6 +28,8 @@ lint.select = [
 lint.ignore = [
     "D400",
     "D107",
+    "D203", # conflicting w/ D211
+    "D213", # conflicting w/ D212
     "D415",
     "D100" # should probably remove this later
 ]
