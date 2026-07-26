@@ -40,7 +40,7 @@ class QuestionEngine:
 
         for question in sorting.sort_values("sort_factor", ascending=True).iterrows():
             data_row = question[1]
-            yield Question(problem=data_row.sentence_es, solution=data_row.sentence_en)
+            yield Question(problem_id = data_row.id_es, problem=data_row.sentence_es, solution=data_row.sentence_en)
 
 
 if __name__ == "__main__":

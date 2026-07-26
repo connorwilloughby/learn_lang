@@ -22,8 +22,21 @@ class Question(BaseModel):
 
     _table_name: str = "question_history"
 
+    problem_id: int
     problem: str
     solution: str
+
+
+
+class QuestionStats(BaseModel):
+    """User history statistics within a given probelem!"""
+
+    problem_id: int
+    correct_count: int
+    fail_count: int
+    attempts: int
+    pass_rate: float
+
 
 
 class TranslationInput(BaseModel):
@@ -39,4 +52,5 @@ class TranslationResponse(BaseModel):
     accuracy: Any
     user_solution: str
     solution: str
-    synonyms: Optional[list[str]] = ""
+    synonyms: Optional[list[str]] = [""]
+

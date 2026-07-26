@@ -1,10 +1,11 @@
 import numpy as np
-from src.models.models import TranslationResponse
 
 from src.config.config import ConfigWork
 from src.engines.questions import QuestionEngine
 from src.engines.translate import Translator
+from src.engines.tracking import Tracker
 from src.interface import GameInterface
+from src.types.models import TranslationResponse
 
 
 class GameManager:
@@ -12,9 +13,9 @@ class GameManager:
 
     def __init__(self) -> None:
 
-        self.question_engine = QuestionEngine().get_question()
-
+        self.question_engine = QuestionEngine()
         self.translation_engine = Translator()
+        self.statistics = Tracker()
         self.interface = GameInterface()
 
     @staticmethod
@@ -28,16 +29,21 @@ class GameManager:
 
         while True:
             # prepare a question
-            question = next(self.question_engine)
+            question = next(self.question_engine.get_question())
+            stats = self.statistics.get_problem_stats(problem_id=question.problem_id)
 
             # ask a question
-            user_response = GameInterface().question(question)
+            user_response = GameInterface().question(question=question, stats=stats)
 
             # score the translation
             score = self.translation_engine.translate(user_response, question.problem)
-
+        
+            # TODO: tell the user if it was right...
             # convert the score to bool
-            correct_translation = self._translation_grade(score)
+            accurate_translation = self._translation_grade(score)
+           
+            # record this result
+            self.statistics.add_problem(problem_id=question.problem_id,correct=accurate_translation)
 
             #  review the attempt
             self.interface.review(

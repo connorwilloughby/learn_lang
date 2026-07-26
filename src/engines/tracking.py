@@ -5,6 +5,7 @@ import logging
 
 from src.config.config import ConfigWork
 from src.interfaces.local_db import LocalDb
+from src.types.models import QuestionStats
 
 CONFIG = ConfigWork()
 PARENT_LOGGER = logging.getLogger(__name__)
@@ -81,6 +82,15 @@ class Tracker(LocalDb):
 
         return True
 
+    @staticmethod
+    def _stats_handler(stats: list[dict]) -> QuestionStats | None:
+
+        # we may not have asked this question prior
+        if stats == []:
+            return None
+
+        return QuestionStats.model_validate(stats[0])
+
     def get_problem_stats(self, problem_id: int):
         query = """SELECT
             problem_id
@@ -101,7 +111,9 @@ class Tracker(LocalDb):
         """
         params = {"problem_id": problem_id}
 
-        return self._select(query=query, params=params)
+        response_dict = self._select(query=query, params=params)
+
+        return self._stats_handler(response_dict)
 
     def _clear_problems(
         self,

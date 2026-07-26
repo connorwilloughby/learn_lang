@@ -2,7 +2,7 @@
 
 import sys
 
-from src.types.models import Question, TranslationResponse
+from src.types.models import Question, TranslationResponse, QuestionStats
 
 
 class GameInterface:
@@ -15,6 +15,8 @@ class GameInterface:
 """
 
         self.question_view = """\
+    Attempts: {attempts} Success rate: {pass_rate}
+    Themes: add_me
     Translate: {question}
 
 """
@@ -46,10 +48,19 @@ class GameInterface:
         """
         self._display(self.menu_view)
 
-    def question(self, question: Question) -> str:
+    def question(self, question: Question, stats: QuestionStats | None) -> str:
         """Show a question to the user"""
-        question_screen = self.question_view.format(question=question.problem)
 
+        if stats is None:
+            attempts = "0"
+            pass_rate = "?"
+        else:
+            attempts = stats.attempts
+            pass_rate = stats.pass_rate
+
+        question_screen = self.question_view.format(
+            question=question.problem, attempts=attempts, pass_rate=pass_rate
+        )
         return self._display(question_screen)
 
     def review(self, review: TranslationResponse):
@@ -69,9 +80,13 @@ class GameInterface:
 if __name__ == "__main__":
     GameInterface().menu()
 
-    question_data = Question(problem="Casa", solution="House")
+    stats = QuestionStats(
+        problem_id=1, correct_count=1, fail_count=1, pass_rate=0.5, attempts=2
+    )
 
-    stage = GameInterface().question(question_data)
+    question = Question(problem_id=1, problem="Casa", solution="House")
+
+    stage = GameInterface().question(question=question, stats=stats)
 
     translation = TranslationResponse(
         accuracy=True, user_solution="house", synonyms=["home", "place"]
