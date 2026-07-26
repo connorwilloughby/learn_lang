@@ -8,10 +8,7 @@ from src.types.models import Question
 
 
 class QuestionEngine:
-    """Returns questions for the user to respond to.
-
-    Is the core gameplay loop.
-    """
+    """Returns questions for the user to respond to."""
 
     # TODO: make this a param from the options menu
     def __init__(self, target: str = "sentences") -> None:
