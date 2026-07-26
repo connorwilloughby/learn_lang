@@ -43,7 +43,7 @@ class TargetSentences:
         self.save_location = shared_config.SENTENCE_WRITE_LOCATION
 
     def load(self) -> pd.DataFrame:
-
+        """Load the local csv with many assumptions."""
         set = pd.read_csv(
             self.save_location,
             sep="\t",

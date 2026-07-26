@@ -8,7 +8,9 @@ class ConfigWork:
     SENTENCE_WRITE_LOCATION: str = "data/sentences/spanish_english.tsv"
 
     # used to configure the location of the word data
-    WORD_SOURCE: str = "omar95/wikimedia_es_words_filtered_only_spanish_letters/data/train-00000-of-00001.parquet"
+    WORD_SOURCE: str = (
+        "omar95/wikimedia_es_words_filtered_only_spanish_letters/data/train-00000-of-00001.parquet"
+    )
     WORD_WRITE_LOCATION: str = "data/words/word_sources.arrow"
 
     # used to track learning progression
@@ -16,8 +18,7 @@ class ConfigWork:
     LOCAL_DB_INIT_SQL_PATH: str = "data/db/init.sql"
 
     def log(self):
-        """"""
-
+        """Write the current config to the terminal"""
         string = f"""All config: 
 
 SENTENCE_SOURCE {self.SENTENCE_SOURCE}

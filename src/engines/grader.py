@@ -1,11 +1,8 @@
-"""\
-Holds grading models which determine the difficulty of held \
-data with CEFR outputs.
-"""
+"""Holds grading models which determine the difficulty of held data with CEFR outputs."""
 
 
 class Grader:
-    """"""
+    """Responsible for managing the grading of problems"""
 
     def __init__(
         self,

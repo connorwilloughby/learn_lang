@@ -25,12 +25,10 @@ class QuestionEngine:
 
     # TODO: probs needs some binning
     def sorting(self) -> pd.DataFrame:
-        """"""
+        """Sort the frame based on the sorting algorithm"""
         questions = self.questions.copy()
 
-        questions["sort_factor"] = (
-            questions["sentence_es"].astype(str).str.split().apply(len)
-        )
+        questions["sort_factor"] = questions["sentence_es"].astype(str).str.split().apply(len)
 
         return questions
 

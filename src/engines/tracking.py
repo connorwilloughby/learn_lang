@@ -12,11 +12,9 @@ PARENT_LOGGER = logging.getLogger(__name__)
 
 
 class Tracker(LocalDb):
-    """"""
+    """Manges all interactions with the local storage system"""
 
     def __init__(self):
-        """"""
-
         super().__init__()
 
     def _check_problem(self, problem_id: int):
@@ -35,7 +33,7 @@ class Tracker(LocalDb):
         return results != []
 
     def _insert_problem(self, problem_id: int, correct: bool):
-
+        """Insert row into problem table"""
         target_col = "correct_count" if correct else "fail_count"
         opposite_col = "correct_count" if not correct else "fail_count"
 
@@ -70,9 +68,8 @@ class Tracker(LocalDb):
 
         self._update(query=query, params=params)
 
-    def add_problem(self, problem_id: int, correct: bool):
-        """"""
-
+    def upsert_problem_stats(self, problem_id: int, correct: bool):
+        """Upsert a given probelm_id recoring the outcomes"""
         exists = self._check_problem(problem_id=problem_id)
 
         if exists:
@@ -84,7 +81,7 @@ class Tracker(LocalDb):
 
     @staticmethod
     def _stats_handler(stats: list[dict]) -> QuestionStats | None:
-
+        """Convert db response to pydantic model"""
         # we may not have asked this question prior
         if stats == []:
             return None
@@ -92,6 +89,7 @@ class Tracker(LocalDb):
         return QuestionStats.model_validate(stats[0])
 
     def get_problem_stats(self, problem_id: int):
+        """Get the statistics for a given problem from db"""
         query = """SELECT
             problem_id
             , correct_count
@@ -131,16 +129,16 @@ if __name__ == "__main__":
 
     flush = track._clear_problems()
 
-    track.add_problem(problem_id=1, correct=True)
-    track.add_problem(problem_id=1, correct=True)
-    track.add_problem(problem_id=1, correct=True)
-    track.add_problem(problem_id=2, correct=False)
-    track.add_problem(problem_id=2, correct=False)
-    track.add_problem(problem_id=2, correct=False)
-    track.add_problem(problem_id=2, correct=True)
-    track.add_problem(problem_id=2, correct=False)
-    track.add_problem(problem_id=3, correct=False)
-    track.add_problem(problem_id=3, correct=True)
+    track.upsert_problem_stats(problem_id=1, correct=True)
+    track.upsert_problem_stats(problem_id=1, correct=True)
+    track.upsert_problem_stats(problem_id=1, correct=True)
+    track.upsert_problem_stats(problem_id=2, correct=False)
+    track.upsert_problem_stats(problem_id=2, correct=False)
+    track.upsert_problem_stats(problem_id=2, correct=False)
+    track.upsert_problem_stats(problem_id=2, correct=True)
+    track.upsert_problem_stats(problem_id=2, correct=False)
+    track.upsert_problem_stats(problem_id=3, correct=False)
+    track.upsert_problem_stats(problem_id=3, correct=True)
 
     p1 = track.get_problem_stats(problem_id=1)
     p2 = track.get_problem_stats(problem_id=2)
