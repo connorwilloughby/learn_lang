@@ -3,4 +3,6 @@ CREATE TABLE IF NOT EXISTS question_history (
     problem_id INTEGER UNIQUE,
     correct_count INTEGER,
     fail_count INTEGER
+    last_n INTEGER,
+    correct_last BOOL
 );

@@ -4,6 +4,7 @@ import sys
 
 from models.question_types import Question, QuestionStats
 from models.translation_types import TranslationResponse
+from utilities.text_utils import color_wrap
 
 
 class ConsoleInterface:

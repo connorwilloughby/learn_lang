@@ -36,15 +36,16 @@ class TrackingInterface(LocalDbInterface):
         """Insert row into problem table"""
         target_col = "correct_count" if correct else "fail_count"
         opposite_col = "correct_count" if not correct else "fail_count"
+        operator = "-" if not correct else ""
+        correct_str = "TRUE" if correct else "FALSE"
 
         query = f"""INSERT INTO
             question_history
-            (problem_id, {target_col}, {opposite_col})
+            (problem_id, {target_col}, {opposite_col}, last_n, correct_last)
         VALUES 
-            (:problem_id, 1, 0)
+            (:problem_id, 1, 0, {operator}1, {correct_str})
         RETURNING 
-            tracking_id, problem_id
-        """
+            tracking_id, problem_id """
         params = {"problem_id": problem_id}
 
         self._insert(query=query, params=params)
@@ -57,11 +58,15 @@ class TrackingInterface(LocalDbInterface):
         """
         # used to infer the column based on outcome
         target_col = "correct_count" if correct else "fail_count"
+        operator = "+" if correct else "-"
+        correct_str = "TRUE" if correct else "FALSE"
 
         query = f"""UPDATE
             question_history
         SET
             {target_col} = {target_col} + 1 
+            , last_n = last_n {operator} 1
+            , correct_last = {correct_str}
         WHERE 
             problem_id = :problem_id
         RETURNING
@@ -96,6 +101,8 @@ class TrackingInterface(LocalDbInterface):
         """Get the statistics for a given problem from db"""
         query = """SELECT
             problem_id
+            , last_n
+            , correct_last
             , correct_count
             , fail_count
             , correct_count + fail_count as attempts 
@@ -116,6 +123,33 @@ class TrackingInterface(LocalDbInterface):
         response_dict = self._select(query=query, params=params)
 
         return self._stats_handler(response_dict)
+
+    def get_all_stats(self) -> list[dict]:
+        """Return all problems and their statistics"""
+        query = """SELECT 
+             problem_id
+            , last_n
+            , correct_last
+            , correct_count
+            , fail_count
+            , correct_count + fail_count as attempts 
+            , round(
+                    cast(
+                        correct_count AS REAL)
+                             /
+                        nullif(correct_count + fail_count, 0),
+                    2
+                ) AS pass_rate
+        FROM 
+            question_history
+        ORDER BY
+            last_n ASC
+            , fail_count DESC
+        """
+
+        response_dict = self._select(query=query)
+
+        return response_dict
 
     def _clear_problems(
         self,

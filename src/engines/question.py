@@ -10,7 +10,10 @@ class QuestionEngine:
     """Returns questions for the user to respond to."""
 
     # TODO: make this a param from the options menu
-    def __init__(self, target: str = "sentences") -> None:
+    def __init__(self, history=None, target: str = "sentences") -> None:
+
+        if history:
+            self._tracking_i = history
 
         if target == "words":
             self.questions: pd.DataFrame = TargetWords().load()
@@ -20,19 +23,32 @@ class QuestionEngine:
             raise ValueError("Unrecognized target param")
 
     # TODO: probs needs some binning
+    # TODO: support for randomization
+    # TODO: support user init sort changes
     def sorting(self) -> pd.DataFrame:
         """Sort the frame based on the sorting algorithm"""
         questions = self.questions.copy()
 
-        questions["sort_factor"] = questions["sentence_es"].astype(str).str.split().apply(len)
+        history = pd.DataFrame(self._tracking_i.get_all_stats())
 
-        return questions
+        joined = questions.merge(
+            history, how="left", left_on="id_es", right_on="problem_id"
+        ).drop_duplicates("sentence_es")
+
+        # count tokens sort
+        joined["tokens"] = joined["sentence_es"].astype(str).str.split().apply(len)
+
+        final = joined.sort_values(
+            by=["last_n", "fail_count", "tokens"], ascending=[True, False, True]
+        )
+
+        return final
 
     def get_question(self) -> Generator[Question, Question, Question]:
         """Return a question from a given dataset."""
         sorting = self.sorting()
 
-        for question in sorting.sort_values("sort_factor", ascending=True).iterrows():
+        for question in sorting.iterrows():
             data_row = question[1]
             yield Question(
                 problem_id=data_row.id_es,
@@ -42,7 +58,9 @@ class QuestionEngine:
 
 
 if __name__ == "__main__":
-    questions = QuestionEngine(target="sentences")
+    from interfaces.tracking import TrackingInterface
+
+    questions = QuestionEngine(history=TrackingInterface(), target="sentences")
 
     this_question = questions.get_question()
 

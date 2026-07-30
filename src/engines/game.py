@@ -16,9 +16,9 @@ class GameEngine:
 
     def __init__(self) -> None:
 
-        self.question_engine = QuestionEngine()
-        self.translation_engine = Translator()
         self.statistics = TrackingInterface()
+        self.question_engine = QuestionEngine(history=self.statistics)
+        self.translation_engine = Translator()
         self.interface = ConsoleInterface()
 
     @staticmethod
