@@ -23,7 +23,7 @@ MAPPING = {
 
 
 def color_wrap(color: Any, string: str):
-    """"""
+    """Set a text area for color when printed in the console."""
     bind = MAPPING[color]
 
     return f"{bind}{string}\033[0m"

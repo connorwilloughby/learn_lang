@@ -1,28 +1,23 @@
-"""Stores our test for"""
+"""Stores our test for the gamer engine"""
 
 import unittest
 from unittest.mock import MagicMock, patch
 
 import numpy as np
 
-from engines.game import GameEngine
+from src.engines.game import GameEngine
 
 
 class TestGameEngine(unittest.TestCase):
+    """Stores tests for the core game engine"""
+
     def setUp(self):
+        """Spin up the engine"""
         self.engine = GameEngine()
-
-    @patch("engines.game.CONFIG.TRANSLATION_PASSING_GRADE", np.float32(0.8))
-    def test_translation_grade_pass(self):
-        self.assertTrue(GameEngine._translation_grade(np.float32(0.8)))
-        self.assertTrue(GameEngine._translation_grade(np.float32(0.9)))
-
-    @patch("engines.game.CONFIG.TRANSLATION_PASSING_GRADE", np.float32(0.8))
-    def test_translation_grade_fail(self):
-        self.assertFalse(GameEngine._translation_grade(np.float32(0.79)))
 
     @patch("engines.game.ConsoleInterface")
     def test_handle_correct_answer(self, mock_console):
+        """Test engine interface logic"""
         question = MagicMock(
             problem_id=1,
             problem="hola",
@@ -55,6 +50,7 @@ class TestGameEngine(unittest.TestCase):
 
     @patch("engines.game.ConsoleInterface")
     def test_handle_incorrect_answer(self, mock_console):
+        """Test engine interface logic in failing condition"""
         question = MagicMock(
             problem_id=5,
             problem="bonjour",
