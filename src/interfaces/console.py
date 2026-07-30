@@ -25,6 +25,8 @@ class ConsoleInterface:
 
     We were expecting: {solution}
 
+    Alternatives would be: {synonyms}
+
     Press any key to continue.
 """
 
@@ -62,14 +64,14 @@ class ConsoleInterface:
     def review(self, review: TranslationResponse):
         """Show the user the accuracy of their solution"""
         # TODO: implement me
-        clean_synonyms = ", ".join(review.synonyms)
+        clean_synonyms = ", ".join(review.alternatives)
 
         return self._display(
             self.review_view.format(
                 user_answer="--" if None else review.user_solution,
                 accuracy=review.accuracy,
                 solution=review.solution,
-                synonyms=clean_synonyms,
+                synonyms=color_wrap("blue", clean_synonyms),
             )
         )
 
@@ -84,7 +86,7 @@ if __name__ == "__main__":
     stage = ConsoleInterface().question(question=question, stats=stats)
 
     translation = TranslationResponse(
-        accuracy=True, user_solution="house", synonyms=["home", "place"], solution="House"
+        accuracy=True, user_solution="house", alternatives=["home", "place"], solution="House"
     )
 
     ConsoleInterface().review(translation)

@@ -22,6 +22,15 @@ class QuestionEngine:
         else:
             raise ValueError("Unrecognized target param")
 
+    def alternatives(self, problem_id: int) -> list[str]:
+        """Return a list of alternative translations for a given problem id capped to 5 results
+
+        :param problem_id: int: the problem id youre targeting.
+        :rtype: list[str]
+        """
+        return list(self.questions[self.questions["id_es"] == problem_id]["sentence_en"])[:5]
+
+    # TODO: will need promotion to engine eventually
     # TODO: probs needs some binning
     # TODO: support for randomization
     # TODO: support user init sort changes
@@ -54,6 +63,7 @@ class QuestionEngine:
                 problem_id=data_row.id_es,
                 problem=data_row.sentence_es,
                 solution=data_row.sentence_en,
+                alternatives=self.alternatives(data_row.id_es),
             )
 
 

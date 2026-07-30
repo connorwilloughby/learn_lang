@@ -16,4 +16,4 @@ class TranslationResponse(BaseModel):
     accuracy: Any
     user_solution: str
     solution: str
-    synonyms: Optional[list[str]] = [""]
+    alternatives: Optional[list[str]] = [""]

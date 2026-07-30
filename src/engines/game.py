@@ -65,5 +65,6 @@ class GameEngine:
                     else color_wrap("red", "Incorrect"),
                     user_solution=user_response,
                     solution=question.solution,
+                    alternatives=question.alternatives,
                 )
             )
