@@ -6,6 +6,7 @@ from engines.translator import Translator
 from interfaces.console import ConsoleInterface
 from interfaces.tracking import TrackingInterface
 from models.translation_types import TranslationResponse
+from utilities.text_utils import color_wrap
 
 CONFIG = ConfigWork()
 
@@ -59,7 +60,9 @@ class GameEngine:
             #  review the attempt
             self.interface.review(
                 TranslationResponse(
-                    accuracy=score.T,
+                    accuracy=color_wrap("green", "Correct")
+                    if accurate_translation
+                    else color_wrap("red", "Incorrect"),
                     user_solution=user_response,
                     solution=question.solution,
                 )

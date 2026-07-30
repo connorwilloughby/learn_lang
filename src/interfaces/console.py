@@ -20,19 +20,20 @@ class ConsoleInterface:
     Translate: {question}
 """
 
-        self.review_view = """  {user_answer} is {accuracy}.
+        self.review_view = """    {user_answer} is {accuracy}.
 
     We were expecting: {solution}
 
     Press any key to continue.
 """
+
     @staticmethod
     def _display(content: str):
         sys.stdout.write("\033[H\033[J")
         sys.stdout.write(content)
         sys.stdout.flush()
 
-        return input("\t: ")
+        return input("    : ")
 
     def menu(
         self,
@@ -59,11 +60,12 @@ class ConsoleInterface:
 
     def review(self, review: TranslationResponse):
         """Show the user the accuracy of their solution"""
+        # TODO: implement me
         clean_synonyms = ", ".join(review.synonyms)
 
         return self._display(
             self.review_view.format(
-                user_answer=review.user_solution,
+                user_answer="--" if None else review.user_solution,
                 accuracy=review.accuracy,
                 solution=review.solution,
                 synonyms=clean_synonyms,
@@ -81,7 +83,7 @@ if __name__ == "__main__":
     stage = ConsoleInterface().question(question=question, stats=stats)
 
     translation = TranslationResponse(
-        accuracy=True, user_solution="house", synonyms=["home", "place"]
+        accuracy=True, user_solution="house", synonyms=["home", "place"], solution="House"
     )
 
     ConsoleInterface().review(translation)

@@ -1,7 +1,6 @@
 from typing import Generator
 
 import pandas as pd
-from torch import Value
 
 from models.question_types import Question
 from sources.sources import TargetSentences, TargetWords
@@ -18,7 +17,7 @@ class QuestionEngine:
         elif target == "sentences":
             self.questions: pd.DataFrame = TargetSentences().load()
         else:
-            raise Value("Unrecognized target param")
+            raise ValueError("Unrecognized target param")
 
     # TODO: probs needs some binning
     def sorting(self) -> pd.DataFrame:
