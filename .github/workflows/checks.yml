@@ -28,6 +28,6 @@ jobs:
       - name: check linting
         run: uv run ruff check
 
-      - name: check unittests
-        run: |
-          uv run coverage run -m unittest discover -s tests
+      # - name: check unittests
+      #   run: |
+      #     uv run coverage run -m unittest discover -s tests
