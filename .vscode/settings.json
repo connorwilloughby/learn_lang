@@ -3,7 +3,8 @@
     "ruff.organizeImports": true,
     "ruff.importStrategy": "fromEnvironment",
     "cSpell.words": [
-        "distiluse"
+        "distiluse",
+        "lemas"
     ],
     "editor.inlineSuggest.enabled": false,
     "python.testing.unittestArgs": [

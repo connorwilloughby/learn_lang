@@ -46,7 +46,9 @@ class GameEngine:
             user_response = ConsoleInterface().question(question=question, stats=stats)
 
             # score the translation
-            score = self.translation_engine.translate(user_response, question.problem)
+            score = self.translation_engine.translate(
+                a=user_response, a_src=question.solution, b=question.problem
+            )
 
             # TODO: tell the user if it was right...
             # convert the score to bool

@@ -27,7 +27,7 @@ uv run src/main.py
 
 | Source Language | Target Language | 
 |----|---|
-|English (🏴󠁧󠁢󠁥󠁮󠁧󠁿️) | Spanish(🇪🇸️)|
+|English (🏴󠁧󠁢󠁥󠁮󠁧󠁿️) | Spanish(🇪🇸️) |
 
 ## language roadmap
 
@@ -45,3 +45,4 @@ Currently the main challenge with language support is the sourcing of standardiz
 
 - [sentence_transformers](https://huggingface.co/sentence-transformers)
 - [Tatoeba.org](https://tatoeba.org/en/downloads)
+
