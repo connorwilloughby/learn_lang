@@ -3,15 +3,15 @@
 # top level config
 import logging
 
-from src.config.config import ConfigWork
-from src.interfaces.local_db import LocalDb
-from src.types.models import QuestionStats
+from config.config import ConfigWork
+from interfaces.local_db import LocalDbInterface
+from models.question_types import QuestionStats
 
 CONFIG = ConfigWork()
 PARENT_LOGGER = logging.getLogger(__name__)
 
 
-class Tracker(LocalDb):
+class TrackingInterface(LocalDbInterface):
     """Manges all interactions with the local storage system"""
 
     def __init__(self):
@@ -50,7 +50,11 @@ class Tracker(LocalDb):
         self._insert(query=query, params=params)
 
     def _update_problem(self, problem_id: int, correct: bool):
+        """Update a given problem_id within the db
 
+        :param problem_id: The id of the problem.
+        :param correct: The status that you would like to record.
+        """
         # used to infer the column based on outcome
         target_col = "correct_count" if correct else "fail_count"
 
@@ -69,7 +73,7 @@ class Tracker(LocalDb):
         self._update(query=query, params=params)
 
     def upsert_problem_stats(self, problem_id: int, correct: bool):
-        """Upsert a given probelm_id recoring the outcomes"""
+        """Upsert a given problem_id recording the outcomes"""
         exists = self._check_problem(problem_id=problem_id)
 
         if exists:
@@ -125,7 +129,7 @@ class Tracker(LocalDb):
 
 
 if __name__ == "__main__":
-    track = Tracker()
+    track = TrackingInterface()
 
     flush = track._clear_problems()
 

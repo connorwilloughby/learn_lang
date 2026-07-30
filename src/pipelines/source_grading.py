@@ -1,11 +1,11 @@
-from src.engines.grader import Grader
-from src.sources.sources import TargetSentences
+from engines.grader import GradingEngine
+from sources.sources import TargetSentences
 
 
 def grade_sp_en_sentences():
     """Import the sentence data and add a grading to it"""
     sentences_df = TargetSentences().load()
-    grader = Grader()
+    grader = GradingEngine()
 
     for row in sentences_df.iterrows():
         # HACK: why does this slice?

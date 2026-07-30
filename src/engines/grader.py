@@ -1,7 +1,7 @@
 """Holds grading models which determine the difficulty of held data with CEFR outputs."""
 
 
-class Grader:
+class GradingEngine:
     """Responsible for managing the grading of problems"""
 
     def __init__(
@@ -20,10 +20,10 @@ class Grader:
 
 
 if __name__ == "__main__":
-    grader = Grader()
+    grader = GradingEngine()
 
     easy = "Cats are dogs"
-    med = "German sheperds are dogs"
+    med = "German shepherds are dogs"
     hard = "my phone is a computer "
 
     result_1 = grader.evaluate(easy)

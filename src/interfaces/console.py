@@ -2,10 +2,11 @@
 
 import sys
 
-from src.types.models import Question, QuestionStats, TranslationResponse
+from models.question_types import Question, QuestionStats
+from models.translation_types import TranslationResponse
 
 
-class GameInterface:
+class ConsoleInterface:
     """Update the STDOUT with information from the game engine"""
 
     def __init__(
@@ -17,25 +18,22 @@ class GameInterface:
         self.question_view = """    Attempts: {attempts} Success rate: {pass_rate}
     Themes: add_me
     Translate: {question}
-
 """
 
-        self.review_view = """  {user_answer} is {accuracy}.
+        self.review_view = """    {user_answer} is {accuracy}.
 
     We were expecting: {solution}
 
     Press any key to continue.
-
 """
 
     @staticmethod
     def _display(content: str):
-        sys.stdout.write("\033[2J\033[H")
-        sys.stdout.flush()
+        sys.stdout.write("\033[H\033[J")
         sys.stdout.write(content)
         sys.stdout.flush()
 
-        return input(": ")
+        return input("    : ")
 
     def menu(
         self,
@@ -62,11 +60,12 @@ class GameInterface:
 
     def review(self, review: TranslationResponse):
         """Show the user the accuracy of their solution"""
+        # TODO: implement me
         clean_synonyms = ", ".join(review.synonyms)
 
         return self._display(
             self.review_view.format(
-                user_answer=review.user_solution,
+                user_answer="--" if None else review.user_solution,
                 accuracy=review.accuracy,
                 solution=review.solution,
                 synonyms=clean_synonyms,
@@ -75,16 +74,16 @@ class GameInterface:
 
 
 if __name__ == "__main__":
-    GameInterface().menu()
+    ConsoleInterface().menu()
 
     stats = QuestionStats(problem_id=1, correct_count=1, fail_count=1, pass_rate=0.5, attempts=2)
 
     question = Question(problem_id=1, problem="Casa", solution="House")
 
-    stage = GameInterface().question(question=question, stats=stats)
+    stage = ConsoleInterface().question(question=question, stats=stats)
 
     translation = TranslationResponse(
-        accuracy=True, user_solution="house", synonyms=["home", "place"]
+        accuracy=True, user_solution="house", synonyms=["home", "place"], solution="House"
     )
 
-    GameInterface().review(translation)
+    ConsoleInterface().review(translation)

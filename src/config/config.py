@@ -1,7 +1,7 @@
 class ConfigWork:
     """Stores all shared variables which are expected to be referenced in multiple locations."""
 
-    TRANSLATION_PASSING_GRADE: float = 0.86
+    TRANSLATION_PASSING_GRADE: float = 0.82
 
     # used to configure the setup of the sentence data
     SENTENCE_SOURCE: str = "tatoeba.org/en/downloads"
@@ -24,7 +24,7 @@ class ConfigWork:
 SENTENCE_SOURCE {self.SENTENCE_SOURCE}
 SENTENCE_WRITE_LOCATION {self.SENTENCE_WRITE_LOCATION}
 WORD_SOURCE {self.WORD_SOURCE}
-WORD_WRITE_LOCATION {self.WORD_WRITE_LOCATION}
+WORD_WRITE_LOCATION {self.WORD_WRITE_LOCATION}  
 """
 
         print(string)

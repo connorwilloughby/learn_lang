@@ -1,7 +1,7 @@
 import pandas as pd
 from datasets import load_dataset
 
-from src.config.config import ConfigWork
+from config.config import ConfigWork
 
 shared_config = ConfigWork
 
