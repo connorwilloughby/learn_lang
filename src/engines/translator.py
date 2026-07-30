@@ -36,8 +36,10 @@ if __name__ == "__main__":
     t_engine = Translator()
 
     string_3 = t_engine.translate(
-        "¿Por qué estás leyendo esto? ¿Me estás acosando, tío? Ofréceme un trabajo, me vendría bien. ¡BÚSCAME EN LINKEDIN! ¡POR FAVOR!",
-        "why are you reading this? you stalking me bro? offer me a job i could do with it. FIND ME ON LINKED IN! PLEASE!",
+        "¿Por qué estás leyendo esto? ¿Me estás acosando, tío? Ofréceme un trabajo, me \
+            vendría bien. ¡BÚSCAME EN LINKEDIN! ¡POR FAVOR!",
+        "why are you reading this? you stalking me bro? offer me a job i could do with it.\
+              FIND ME ON LINKED IN! PLEASE!",
     )
     # FIX: conjugation dimensions are fucked and hard
     string_1 = t_engine.translate("Ríndanse", "Give it up.")
