@@ -17,8 +17,8 @@ class Translator:
         :param b: str: User translation
         :rtype np.float32(): user score
         """
-        a_clean = re.sub(r"[^\w\s]", "", a).lower()
-        b_clean = re.sub(r"[^\w\s]", "", b).lower()
+        a_clean = re.sub(r"[!\"#$%&'()*+,\-./:;<=>?@\[\\\]^_`{|}~]+", "", a).lower()
+        b_clean = re.sub(r"[!\"#$%&'()*+,\-./:;<=>?@\[\\\]^_`{|}~]+", "", b).lower()
 
         if a_clean == b_clean:
             return 1.0
