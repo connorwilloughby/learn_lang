@@ -16,9 +16,9 @@ class GameEngine:
 
     def __init__(self) -> None:
 
-        self.question_engine = QuestionEngine()
-        self.translation_engine = Translator()
         self.statistics = TrackingInterface()
+        self.question_engine = QuestionEngine(history=self.statistics)
+        self.translation_engine = Translator()
         self.interface = ConsoleInterface()
 
     @staticmethod
@@ -46,7 +46,9 @@ class GameEngine:
             user_response = ConsoleInterface().question(question=question, stats=stats)
 
             # score the translation
-            score = self.translation_engine.translate(user_response, question.problem)
+            score = self.translation_engine.translate(
+                a=user_response, a_src=question.solution, b=question.problem
+            )
 
             # TODO: tell the user if it was right...
             # convert the score to bool
@@ -65,5 +67,6 @@ class GameEngine:
                     else color_wrap("red", "Incorrect"),
                     user_solution=user_response,
                     solution=question.solution,
+                    alternatives=question.alternatives,
                 )
             )

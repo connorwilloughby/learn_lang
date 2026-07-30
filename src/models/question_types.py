@@ -17,6 +17,7 @@ class Question(BaseModel):
     problem_id: int
     problem: str
     solution: str
+    alternatives: list[str] = []
 
 
 class QuestionStats(BaseModel):
