@@ -17,6 +17,15 @@ class TrackingInterface(LocalDbInterface):
     def __init__(self):
         super().__init__()
 
+    @staticmethod
+    def _stats_handler(stats: list[dict]) -> QuestionStats | None:
+        """Convert db response to pydantic model"""
+        # we may not have asked this question prior
+        if stats == []:
+            return None
+
+        return QuestionStats.model_validate(stats[0])
+
     def _check_problem(self, problem_id: int):
         """Respond as true if the record exists in the db"""
         query = """SELECT
@@ -88,16 +97,7 @@ class TrackingInterface(LocalDbInterface):
 
         return True
 
-    @staticmethod
-    def _stats_handler(stats: list[dict]) -> QuestionStats | None:
-        """Convert db response to pydantic model"""
-        # we may not have asked this question prior
-        if stats == []:
-            return None
-
-        return QuestionStats.model_validate(stats[0])
-
-    def get_problem_stats(self, problem_id: int):
+    def get_problem_stats(self, problem_id: int) -> QuestionStats | None:
         """Get the statistics for a given problem from db"""
         query = """SELECT
             problem_id
