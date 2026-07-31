@@ -1,16 +1,16 @@
 """Stores unittest relating to the translator class"""
 
 import unittest
-
 from unittest.mock import MagicMock, patch
+
 from engines.translator import Translator
 
 
 class TestTranslator(unittest.TestCase):
-    """"""
+    """Holds unit tests for the translation method on Translator"""
 
     def test_ident_override(self):
-        """"""
+        """Assert that when receiving a perfect translation we skip to return 1.0"""
         # arrange
         encode_mocks = [
             [
@@ -31,7 +31,7 @@ class TestTranslator(unittest.TestCase):
         assert score == 1.0
 
     def test_basic_translate(self):
-        """"""
+        """Assert that when receiving a very close match we return a float for this."""
         # arrange
         encode_mocks = [
             [0.9, 0.9],

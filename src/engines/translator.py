@@ -29,7 +29,7 @@ class Translator:
         v2 = self.model.encode(a_src_clean)
 
         score = cosine_similarity([v1], [v2])[0][0]
-        
+
         return score
 
 
