@@ -21,6 +21,10 @@ class Translator:
         a_clean = re.sub(r"[!\"#$%&'()*+,\-./:;<=>?@\[\\\]^_`{|}~]+", "", a).lower()
         a_src_clean = re.sub(r"[!\"#$%&'()*+,\-./:;<=>?@\[\\\]^_`{|}~]+", "", a_src).lower()
 
+        # skip if no attempt
+        if a == "":
+            return np.float64(0.0)
+
         # HACK: because i cba to do lemas rn
         if a_clean == a_src_clean:
             return np.float64(1.0)
