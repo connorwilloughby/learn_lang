@@ -36,6 +36,16 @@ lint.ignore = [
 target-version = "py314"
 exclude = ["__pycache__", ".venv", "build", "dist"]
 
+
+[tool.coverage.report]
+skip_empty = true
+sort = "cover"
+skip_covered = true
+fail_under = 0
+exclude_also = [
+    'if __name__ == .__main__.:',
+]
+
 [dependency-groups]
 dev = [
     "coverage>=7.15.2",
