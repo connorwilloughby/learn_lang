@@ -1,3 +1,3 @@
 uv run ruff format 
 uv run ruff check --fix 
-#uv run coverage unittest discover -s tests
+PYTHONPATH=src uv run -m unittest discover -s tests 

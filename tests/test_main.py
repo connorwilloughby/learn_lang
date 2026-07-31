@@ -9,3 +9,7 @@ class TestMain(unittest.TestCase):
     def test_main(self):
         """Just run into test"""
         assert True
+
+
+if __name__ == "__main__":
+    unittest.main()
