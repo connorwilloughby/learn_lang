@@ -10,7 +10,7 @@ class TestTranslator(unittest.TestCase):
     """Holds unit tests for the translation method on Translator"""
 
     def test_ident_override(self):
-        """Assert that when receiving a perfect translation we skip to return 1.0"""
+        """Assert that when receiving aw perfect translation we skip to return 1.0"""
         # arrange
         encode_mocks = [
             [
