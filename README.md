@@ -1,9 +1,9 @@
 # welcome to `learn_lang`!
 
-[![Code style: Ruff](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/astral-sh/ruff/main/assets/badge/format.json)](https://github.com/astral-sh/ruff)
 ![GitHub Actions Workflow Status](https://img.shields.io/github/actions/workflow/status/connorwilloughby/learn_lang/checks.yml)
 ![Static Badge](https://img.shields.io/badge/%20https%3A%2F%2Fimg.shields.io%2Fbadge%2Fcoverage-91%25-green?label=coverage)
 ![Static Badge](https://img.shields.io/badge/~5.1GB-red?label=proj-size)
+[![Code style: Ruff](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/astral-sh/ruff/main/assets/badge/format.json)](https://github.com/astral-sh/ruff)
 
 ---
 
