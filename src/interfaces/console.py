@@ -39,7 +39,7 @@ class ConsoleInterface:
 """
 
         self.review_view = """    {user_answer} is {accuracy}.
-    Solution: {solution}
+    Translation: {problem} - {solution}
     Alternatives: {synonyms}
 
     Reverso Contexto: {link}
@@ -108,7 +108,7 @@ class ConsoleInterface:
                 solution=color_wrap("white", review.solution),
                 synonyms=color_wrap("blue", clean_synonyms),
                 link=f"{self.rc_mapping}{review.problem}",
-                problem=review.problem,
+                problem=color_wrap("bright_magenta", review.problem),
             )
         )
 
