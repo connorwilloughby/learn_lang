@@ -3,22 +3,32 @@ from typing import Generator
 import pandas as pd
 
 from models.question_types import Question
+from models.game_types import SortingTypes
 from sources.sources import TargetSentences, TargetWords
+
+STYPES = SortingTypes()
 
 
 class QuestionEngine:
     """Returns questions for the user to respond to."""
 
     # TODO: make this a param from the options menu
-    def __init__(self, history=None, target: str = "sentences") -> None:
+    def __init__(self, sorting: int = None, history=None, game_mode: str = "sentences") -> None:
 
         if history:
             self._tracking_i = history
 
+        self.sorting_mode: int = sorting
+
+        # setup the class
+        self._handle_game_modes(target=game_mode)
+
+    def _handle_game_modes(self, target: str):
+        """"""
         if target == "words":
-            self.questions: pd.DataFrame = TargetWords().load()
+            self.questions = TargetWords().load()
         elif target == "sentences":
-            self.questions: pd.DataFrame = TargetSentences().load()
+            self.questions = TargetSentences().load()
         else:
             raise ValueError("Unrecognized target param")
 
@@ -34,7 +44,7 @@ class QuestionEngine:
     # TODO: probs needs some binning
     # TODO: support for randomization
     # TODO: support user init sort changes
-    def sorting(self) -> pd.DataFrame:
+    def sorting(self, revision_mode: bool = True) -> pd.DataFrame:
         """Sort the frame based on the sorting algorithm"""
         questions = self.questions.copy()
 
@@ -47,15 +57,23 @@ class QuestionEngine:
         # count tokens sort
         joined["tokens"] = joined["sentence_es"].astype(str).str.split().apply(len)
 
-        final = joined.sort_values(
-            by=["last_n", "fail_count", "tokens"], ascending=[True, False, True]
-        )
+        revision_order = ["last_n", "fail_count", "tokens"]
+        revision_asc = [True, False, True]
+        learning_order = ["tokens"]
+        learning_asc = [True]
+
+        order = revision_order if revision_mode else learning_order
+        asc = revision_asc if revision_mode else learning_asc
+
+        final = joined.sort_values(by=order, ascending=asc)
 
         return final
 
     def get_question(self) -> Generator[Question, Question, Question]:
         """Return a question from a given dataset."""
-        sorting = self.sorting()
+
+        revision = True if self.sorting_mode == STYPES.PRACTICE_MODE else False
+        sorting = self.sorting(revision_mode=revision)
 
         for question in sorting.iterrows():
             data_row = question[1]
@@ -70,7 +88,7 @@ class QuestionEngine:
 if __name__ == "__main__":
     from interfaces.tracking import TrackingInterface
 
-    questions = QuestionEngine(history=TrackingInterface(), target="sentences")
+    questions = QuestionEngine(history=TrackingInterface(), game_mode="sentences")
 
     this_question = questions.get_question()
 

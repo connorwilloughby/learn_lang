@@ -19,14 +19,15 @@ class Translator:
         :rtype np.float64(): user score
         """
         a_clean = re.sub(r"[!\"#$%&'()*+,\-./:;<=>?@\[\\\]^_`{|}~]+", "", a).lower()
+        b_clean = re.sub(r"[!\"#$%&'()*+,\-./:;<=>?@\[\\\]^_`{|}~]+", "", b).lower()
         a_src_clean = re.sub(r"[!\"#$%&'()*+,\-./:;<=>?@\[\\\]^_`{|}~]+", "", a_src).lower()
 
         # skip if no attempt
-        if a == "":
+        if b == "" or a == "" or b is None or a is None:
             return np.float64(0.0)
 
         # HACK: because i cba to do lemas rn
-        if a_clean == a_src_clean:
+        if a_clean == b_clean:
             return np.float64(1.0)
 
         v1 = self.model.encode(a_clean)
@@ -40,17 +41,9 @@ class Translator:
 if __name__ == "__main__":
     t_engine = Translator()
 
-    string_3 = t_engine.translate(
-        "why are you reading this? you stalking me bro? offer me a job i could do with it.\
-              FIND ME ON LINKED IN! PLEASE!",
-        "¿Por qué estás leyendo esto? ¿Me estás acosando, tío? Ofréceme un trabajo, me \
-            vendría bien. ¡BÚSCAME EN LINKEDIN! ¡POR FAVOR!",
-        "¿Por qué estás leyendo esto? ¿Me estás acosando, tío? Ofréceme un trabajo, me \
-            vendría bien. ¡BÚSCAME EN LINKEDIN! ¡POR FAVOR!",
-    )
     # FIX: conjugation dimensions are fucked and hard
-    string_1 = t_engine.translate("Ríndanse", "Give it up.")
-    string_3 = t_engine.translate("Átame.", "Tie me up.")
-    string_3 = t_engine.translate("Pienso, luego existo", "I think therefore i am")
+    string_1 = t_engine.translate(a="Ríndanse", b="Give it up.")
+    string_3 = t_engine.translate(a="Átame.", b="Tie me up.")
+    string_3 = t_engine.translate(a="Pienso, luego existo", b="I think therefore i am")
 
     breakpoint()

@@ -5,10 +5,14 @@ from engines.question import QuestionEngine
 from engines.translator import Translator
 from interfaces.console import ConsoleInterface
 from interfaces.tracking import TrackingInterface
+from models.exception_types import GameMenuChange
+from models.game_types import GameTypes, SortingTypes
 from models.translation_types import TranslationResponse
 from utilities.text_utils import color_wrap
 
 CONFIG = ConfigWork()
+STYPES = SortingTypes()
+GTYPES = GameTypes()
 
 
 class GameEngine:
@@ -26,14 +30,35 @@ class GameEngine:
         """Evaluate if a given score should be considered as a pass
 
         Params:
-            :param score np.float32
+            score (np.float32)
         """
         return bool(score >= CONFIG.TRANSLATION_PASSING_GRADE)
 
-    def handle(self):
-        """Manage the main gameplay loop"""
-        ConsoleInterface().menu()
+    def handle_menu(self):
+        """Enable the user to interface with game modes and handle changes between them"""
+        try:
+            # offer user the game
+            game_mode = int(ConsoleInterface().menu_mode())
+            sort_mode = int(ConsoleInterface().menu_sort())
 
+            # sentence mode
+            if game_mode == GTYPES.SENTENCE_MODE:
+                # HACK make this an enum not string on target
+                self.question_engine = QuestionEngine(
+                    sorting=sort_mode, history=self.statistics, game_mode="sentences"
+                )
+                self.handle_game()
+            # word mode
+            if game_mode == GTYPES.WORD_MODE:
+                self.question_engine = QuestionEngine(
+                    sorting=sort_mode, history=self.statistics, game_mode="words"
+                )
+                self.handle_game()
+        except GameMenuChange:
+            self.handle_menu()
+
+    def handle_game(self, mode: int = 0):
+        """Manage the main gameplay loop"""
         # allow the iterator to persist across questions
         question_state = self.question_engine.get_question()
 
@@ -43,7 +68,7 @@ class GameEngine:
             stats = self.statistics.get_problem_stats(problem_id=question.problem_id)
 
             # ask a question
-            user_response = ConsoleInterface().question(question=question, stats=stats)
+            user_response = self.interface.question(question=question, stats=stats)
 
             # score the translation
             score = self.translation_engine.translate(
@@ -62,11 +87,10 @@ class GameEngine:
             #  review the attempt
             self.interface.review(
                 TranslationResponse(
-                    accuracy=color_wrap("green", "Correct")
-                    if accurate_translation
-                    else color_wrap("red", "Incorrect"),
+                    accuracy=accurate_translation,
                     user_solution=user_response,
                     solution=question.solution,
+                    problem=question.problem,
                     alternatives=question.alternatives,
                 )
             )

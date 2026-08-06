@@ -1,7 +1,8 @@
 {
     "cSpell.words": [
         "distiluse",
-        "lemas"
+        "lemas",
+        "misinput"
     ],
     "editor.inlineSuggest.enabled": false,
     "ruff.organizeImports": true,

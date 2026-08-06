@@ -16,4 +16,5 @@ class TranslationResponse(BaseModel):
     accuracy: Any
     user_solution: str
     solution: str
+    problem: str
     alternatives: Optional[list[str]] = [""]

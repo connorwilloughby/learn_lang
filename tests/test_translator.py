@@ -52,6 +52,27 @@ class TestTranslator(unittest.TestCase):
 
         assert score == 0.9982743731749959
 
+    def test_(self):
+        """"""
+        # arrange
+        encode_mocks = [
+            [0.9, 0.9],
+            [0.9, 0.8],
+        ]
+
+        mock_transformer = MagicMock(return_value=MagicMock)
+        with patch("engines.translator.SentenceTransformer", return_values=mock_transformer) as _:
+            translator = Translator()
+        mock_transformer = MagicMock(return_value=MagicMock)
+        translator.model = mock_transformer
+        translator.model.encode = MagicMock(side_effect=encode_mocks)
+
+        # act
+        score = translator.translate(a="Good morning", a_src="Morning", b="Buenas días.")
+
+        # assert
+        assert score == 0.9982743731749959
+
 
 if __name__ == "__main__":
     unittest.main()
