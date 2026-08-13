@@ -27,7 +27,7 @@ class Translator:
             return np.float64(0.0)
 
         # HACK: because i cba to do lemas rn
-        if a_clean == b_clean:
+        if a_clean == b_clean or a_clean == a_src_clean:
             return np.float64(1.0)
 
         v1 = self.model.encode(a_clean)

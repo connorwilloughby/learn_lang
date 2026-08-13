@@ -2,8 +2,8 @@ from typing import Generator
 
 import pandas as pd
 
-from models.question_types import Question
 from models.game_types import SortingTypes
+from models.question_types import Question
 from sources.sources import TargetSentences, TargetWords
 
 STYPES = SortingTypes()
@@ -24,7 +24,7 @@ class QuestionEngine:
         self._handle_game_modes(target=game_mode)
 
     def _handle_game_modes(self, target: str):
-        """"""
+        """Handle various game modes"""
         if target == "words":
             self.questions = TargetWords().load()
         elif target == "sentences":
@@ -71,7 +71,6 @@ class QuestionEngine:
 
     def get_question(self) -> Generator[Question, Question, Question]:
         """Return a question from a given dataset."""
-
         revision = True if self.sorting_mode == STYPES.PRACTICE_MODE else False
         sorting = self.sorting(revision_mode=revision)
 
