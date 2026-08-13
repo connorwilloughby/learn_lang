@@ -1,3 +1,4 @@
+
 # welcome to `learn_lang`!
 
 ![GitHub Actions Workflow Status](https://img.shields.io/github/actions/workflow/status/connorwilloughby/learn_lang/checks.yml)
@@ -21,6 +22,10 @@ If you have UV installed on your system then you can get stuck in with `sync` th
 uv sync
 uv run src/main.py
 ```
+
+## quick demo 
+
+[demo_vid.webm](https://github.com/user-attachments/assets/bcadb0df-d9dc-43a2-b499-0dff41a1b142)
 
 ## supported languages
 

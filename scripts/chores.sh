@@ -1,3 +1,4 @@
+# source  .venv/bin/activate
 uv run ruff format 
 uv run ruff check --fix 
-PYTHONPATH=src uv run -m unittest discover -s tests 
+PYTHONPATH=src uv run -m unittest discover -s tests

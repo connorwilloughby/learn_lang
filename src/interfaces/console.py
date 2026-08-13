@@ -48,7 +48,7 @@ class ConsoleInterface:
 """
 
     def _handle_user_changes(self, input: str):
-        """"""
+        """Handle various global user inputs for game state alters"""
         if input == "-x":
             raise GameMenuChange
 
@@ -64,15 +64,13 @@ class ConsoleInterface:
         return response
 
     def menu_sort(self, misinput: bool = False):
-        """"""
-
+        """Show the user the sort mode menu"""
         val = "\n\tPrevious input cannot be parsed\n" if misinput else ""
 
         return self._display(self.menu_sort_view.format(err=color_wrap("red", val)))
 
     def menu_mode(self, misinput: bool = False):
-        """"""
-
+        """Show the user the game mode menu"""
         val = "\n\tPrevious input cannot be parsed\n" if misinput else ""
 
         return self._display(self.menu_mode_view.format(err=color_wrap("red", val)))
