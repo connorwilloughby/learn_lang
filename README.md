@@ -1,3 +1,4 @@
+
 # welcome to `learn_lang`!
 
 ![GitHub Actions Workflow Status](https://img.shields.io/github/actions/workflow/status/connorwilloughby/learn_lang/checks.yml)
@@ -24,9 +25,7 @@ uv run src/main.py
 
 ## quick demo 
 
-<video autoplay loop muted src="./docs/demo_vid.webm"></video> 
-
-![](./docs/demo_vid.webm)
+[demo_vid.webm](https://github.com/user-attachments/assets/bcadb0df-d9dc-43a2-b499-0dff41a1b142)
 
 ## supported languages
 
