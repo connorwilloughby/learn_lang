@@ -22,6 +22,10 @@ uv sync
 uv run src/main.py
 ```
 
+## quick demo 
+
+/docs/demo_vid.webm
+
 ## supported languages
 
 | Source Language | Target Language |

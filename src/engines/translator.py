@@ -9,7 +9,10 @@ class Translator:
     """The core class which handles all interactions with translations and maps"""
 
     def __init__(self) -> None:
-        self.model = SentenceTransformer("distiluse-base-multilingual-cased-v2")
+        self.model = SentenceTransformer(
+            "sentence-tranformers/distiluse-base-multilingual-cased-v2",
+            cache_folder="/home/cw/.cache/huggingface/",
+        )
 
     def translate(self, a: str, b: str, a_src: str):
         """Determine the quality of a translation
