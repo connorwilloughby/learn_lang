@@ -29,13 +29,57 @@ class TargetWords(HuggingFaceSource):
     """Returns a dataset containing words."""
 
     def __init__(self):
-        super().__init__(
-            source_location=shared_config.WORD_SOURCE,
-            save_location=shared_config.WORD_WRITE_LOCATION,
+        self.source_location = shared_config.SENTENCE_SOURCE
+        self.save_location = shared_config.SENTENCE_WRITE_LOCATION
+
+    def load(self) -> pd.DataFrame:
+        """Load the local csv with many assumptions."""
+        set = pd.read_csv(
+            self.save_location,
+            sep="\t",
+            names=[
+                "id_es",
+                "sentence_es",
+                "id_en",
+                "sentence_en",
+            ],
         )
 
+        set["tokens"] = set["sentence_es"].astype(str).str.split().apply(len)
+        set = set[set["tokens"] == 1]
 
-class TargetSentences:
+        set.drop_duplicates(subset=["sentence_es"], keep="first")
+
+
+class TargetSentencePartial(HuggingFaceSource):
+    """Sentences in both languages with a missing word that as to be inserted!"""
+
+    def __init__(self):
+        self.source_location = shared_config.SENTENCE_SOURCE
+        self.save_location = shared_config.SENTENCE_WRITE_LOCATION
+
+    def load(self) -> pd.DataFrame:
+        """Load the local csv with many assumptions."""
+        set = pd.read_csv(
+            self.save_location,
+            sep="\t",
+            names=[
+                "id_es",
+                "sentence_es",
+                "id_en",
+                "sentence_en",
+            ],
+        )
+
+        set["tokens"] = set["sentence_es"].astype(str).str.split().apply(len)
+        set = set[set["tokens"] >= 3]
+
+        set.drop_duplicates(subset=["sentence_es"], keep="first")
+
+        return set.sample(frac=1)
+
+
+class TargetSentencesFull:
     """Returns a dataset containing sentences."""
 
     def __init__(self):
@@ -55,6 +99,9 @@ class TargetSentences:
             ],
         )
 
+        set["tokens"] = set["sentence_es"].astype(str).str.split().apply(len)
+        set = set[set["tokens"] != 1]
+
         # HACK: this is likely going to cause issues later with alternative options
         # this is needed as the set has two paths that it can fall down
         set.drop_duplicates(subset=["sentence_es"], keep="first")
@@ -63,7 +110,7 @@ class TargetSentences:
 
 
 if __name__ == "__main__":
-    s = TargetSentences().load()
+    s = TargetSentencesFull().load()
     # _ = TargetWords().download()
     # w = TargetWords().load()
     # _ = TargetSentences().download()

@@ -9,6 +9,18 @@ class QuestionHistory(BaseModel):
     fail_count: int
 
 
+class QuestionSentencePartial(BaseModel):
+    """Stores the problems when in missing word mode"""
+
+    problem_id: int
+    problem_target: str
+    """The sentece in the target language (missing word)"""
+    problem_source: str
+    """The sentence in native language (complete)"""
+    solution: str
+    """The missing word"""
+
+
 class Question(BaseModel):
     """Used to store problems and solutions"""
 

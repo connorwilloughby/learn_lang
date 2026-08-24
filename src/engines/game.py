@@ -93,3 +93,41 @@ class GameEngine:
                     alternatives=question.alternatives,
                 )
             )
+
+    def handle_game_sentence(self, mode: int = 0):
+        """Manage the main gameplay loop"""
+        # allow the iterator to persist across questions
+        question_state = self.question_engine.get_question()
+
+        while True:
+            # prepare a question
+            question = next(question_state)
+            stats = self.statistics.get_problem_stats(problem_id=question.problem_id)
+
+            # ask a question
+            user_response = self.interface.question(question=question, stats=stats)
+
+            # score the translation
+            score = self.translation_engine.translate(
+                a=user_response, a_src=question.solution, b=question.problem
+            )
+
+            # TODO: tell the user if it was right...
+            # convert the score to bool
+            accurate_translation = self._translation_grade(score)
+
+            # record this result
+            self.statistics.upsert_problem_stats(
+                problem_id=question.problem_id, correct=accurate_translation
+            )
+
+            #  review the attempt
+            self.interface.review(
+                TranslationResponse(
+                    accuracy=accurate_translation,
+                    user_solution=user_response,
+                    solution=question.solution,
+                    problem=question.problem,
+                    alternatives=question.alternatives,
+                )
+            )
