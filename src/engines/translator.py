@@ -10,7 +10,7 @@ class Translator:
 
     def __init__(self) -> None:
         self.model = SentenceTransformer(
-            "sentence-tranformers/distiluse-base-multilingual-cased-v2",
+            "sentence-transformers/distiluse-base-multilingual-cased-v2",
             cache_folder="/home/cw/.cache/huggingface/",
         )
 

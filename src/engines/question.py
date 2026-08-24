@@ -4,7 +4,7 @@ import pandas as pd
 
 from models.game_types import SortingTypes
 from models.question_types import Question
-from sources.sources import TargetSentences, TargetWords
+from sources.sources import TargetSentencesFull, TargetWords
 
 STYPES = SortingTypes()
 
@@ -28,7 +28,7 @@ class QuestionEngine:
         if target == "words":
             self.questions = TargetWords().load()
         elif target == "sentences":
-            self.questions = TargetSentences().load()
+            self.questions = TargetSentencesFull().load()
         else:
             raise ValueError("Unrecognized target param")
 
@@ -59,8 +59,8 @@ class QuestionEngine:
 
         revision_order = ["last_n", "fail_count", "tokens"]
         revision_asc = [True, False, True]
-        learning_order = ["tokens"]
-        learning_asc = [True]
+        learning_order = []
+        learning_asc = []
 
         order = revision_order if revision_mode else learning_order
         asc = revision_asc if revision_mode else learning_asc
