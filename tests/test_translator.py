@@ -3,6 +3,8 @@
 import unittest
 from unittest.mock import MagicMock, patch
 
+from numpy import float64
+
 from engines.translator import Translator
 
 
@@ -10,7 +12,7 @@ class TestTranslator(unittest.TestCase):
     """Holds unit tests for the translation method on Translator"""
 
     def test_ident_override(self):
-        """Assert that when receiving aw perfect translation we skip to return 1.0"""
+        """Assert that when receiving a perfect translation we skip to return 1.0"""
         # arrange
         encode_mocks = [
             [0.9, 0.9],
@@ -27,7 +29,7 @@ class TestTranslator(unittest.TestCase):
         score = translator.translate(a="hey", a_src="hey", b="Hola")
 
         # assert
-        self.assertEqual(score, 1.0)
+        self.assertEqual(score, float64(1.0))
 
     def test_basic_translate(self):
         """Assert that when receiving a very close match we return a float for this."""
