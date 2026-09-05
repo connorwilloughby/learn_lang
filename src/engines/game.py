@@ -8,7 +8,6 @@ from interfaces.tracking import TrackingInterface
 from models.exception_types import GameMenuChange
 from models.game_types import GameTypes, SortingTypes
 from models.translation_types import TranslationResponse
-from utilities.text_utils import color_wrap
 
 CONFIG = ConfigWork()
 STYPES = SortingTypes()

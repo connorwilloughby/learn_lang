@@ -62,10 +62,25 @@ class TargetSentences:
         return set.sample(frac=1)
 
 
+class TargetMissingWord(TargetSentences):
+    """Returns a dataset containing sentences but with a missing word."""
+
+    def __init__(self):
+
+        _ = super().__init__
+
+        self.set = self.load()
+
+    def setup_words(self):
+        """Create a set by removing desirable words"""
+        df = self.set
+
+        df = df[df["sentence_en"] >= 3]
+
+        pass
+
+
 if __name__ == "__main__":
     s = TargetSentences().load()
-    # _ = TargetWords().download()
-    # w = TargetWords().load()
-    # _ = TargetSentences().download()
 
     breakpoint()

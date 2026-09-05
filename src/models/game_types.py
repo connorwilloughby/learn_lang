@@ -2,7 +2,7 @@
 
 
 class GameTypes:
-    """"""
+    """Holds various options for game types"""
 
     def __init__(self):
 
@@ -13,7 +13,7 @@ class GameTypes:
 
 
 class SortingTypes:
-    """"""
+    """Hold various options for sorting types"""
 
     def __init__(self):
         self.LEARNING_MODE: int = 1

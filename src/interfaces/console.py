@@ -48,11 +48,12 @@ class ConsoleInterface:
 """
 
     def _handle_user_changes(self, input: str):
-        """"""
+        """Handle a game mode change from the user"""
         if input == "-x":
             raise GameMenuChange
 
     def _display(self, content: str):
+        """Send a message to the CLI"""
         sys.stdout.write("\033[H\033[J")
         sys.stdout.write(content)
         sys.stdout.flush()
@@ -64,15 +65,13 @@ class ConsoleInterface:
         return response
 
     def menu_sort(self, misinput: bool = False):
-        """"""
-
+        """Show the sorting options to the user"""
         val = "\n\tPrevious input cannot be parsed\n" if misinput else ""
 
         return self._display(self.menu_sort_view.format(err=color_wrap("red", val)))
 
     def menu_mode(self, misinput: bool = False):
-        """"""
-
+        """Show the user the menu"""
         val = "\n\tPrevious input cannot be parsed\n" if misinput else ""
 
         return self._display(self.menu_mode_view.format(err=color_wrap("red", val)))
