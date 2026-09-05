@@ -85,10 +85,12 @@ class TargetSentencesFull:
     def __init__(self):
         self.source_location = shared_config.SENTENCE_SOURCE
         self.save_location = shared_config.SENTENCE_WRITE_LOCATION
+        self.load()
+        self.set = self.sentences_filter()
 
     def load(self) -> pd.DataFrame:
         """Load the local csv with many assumptions."""
-        set = pd.read_csv(
+        frame = pd.read_csv(
             self.save_location,
             sep="\t",
             names=[
@@ -99,32 +101,35 @@ class TargetSentencesFull:
             ],
         )
 
-        set["tokens"] = set["sentence_es"].astype(str).str.split().apply(len)
-        set = set[set["tokens"] != 1]
+        # get sentence tokens
+        frame["tokens"] = frame["sentence_es"].astype(str).str.split().apply(len)
 
         # HACK: this is likely going to cause issues later with alternative options
         # this is needed as the set has two paths that it can fall down
-        set.drop_duplicates(subset=["sentence_es"], keep="first")
+        frame.drop_duplicates(subset=["sentence_es"], keep="first")
 
-        return set.sample(frac=1)
+        return frame
+
+    def sentences_filter(self):
+        """Filter out single token objects within `sentence_es`"""
+        df = self.set
+        return df[df["tokens"] >= 2]
 
 
-class TargetMissingWord(TargetSentences):
+class TargetMissingWord(TargetSentencesFull):
     """Returns a dataset containing sentences but with a missing word."""
 
     def __init__(self):
 
         _ = super().__init__
 
-        self.set = self.load()
+        self.set = self.missing_sen_filter()
 
-    def setup_words(self):
+    def missing_sen_filter(self) -> pd.DataFrame:
         """Create a set by removing desirable words"""
-        df = self.set
+        _ = self.set
 
-        df = df[df["sentence_en"] >= 3]
-
-        pass
+        return NotImplementedError
 
 
 if __name__ == "__main__":

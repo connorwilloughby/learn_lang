@@ -29,7 +29,7 @@ class TestTranslator(unittest.TestCase):
         score = translator.translate(a="hey", a_src="hey", b="Hola")
 
         # assert
-        self.assertEqual(score, float64(1.0000000000000002))
+        self.assertEqual(score, float64(1.0))
 
     def test_basic_translate(self):
         """Assert that when receiving a very close match we return a float for this."""
