@@ -25,7 +25,7 @@ class HuggingFaceSource:
         return pd.read_parquet(self.save_location, engine="pyarrow")
 
 
-class TargetWords(HuggingFaceSource):
+class TargetWords:
     """Returns a dataset containing words."""
 
     def __init__(self):
@@ -34,7 +34,7 @@ class TargetWords(HuggingFaceSource):
 
     def load(self) -> pd.DataFrame:
         """Load the local csv with many assumptions."""
-        set = pd.read_csv(
+        frame = pd.read_csv(
             self.save_location,
             sep="\t",
             names=[
@@ -45,38 +45,12 @@ class TargetWords(HuggingFaceSource):
             ],
         )
 
-        set["tokens"] = set["sentence_es"].astype(str).str.split().apply(len)
-        set = set[set["tokens"] == 1]
+        frame["tokens"] = frame["sentence_es"].astype(str).str.split().apply(len)
+        frame = frame[frame["tokens"] == 1]
 
-        set.drop_duplicates(subset=["sentence_es"], keep="first")
+        frame.drop_duplicates(subset=["sentence_es"], keep="first")
 
-
-class TargetSentencePartial(HuggingFaceSource):
-    """Sentences in both languages with a missing word that as to be inserted!"""
-
-    def __init__(self):
-        self.source_location = shared_config.SENTENCE_SOURCE
-        self.save_location = shared_config.SENTENCE_WRITE_LOCATION
-
-    def load(self) -> pd.DataFrame:
-        """Load the local csv with many assumptions."""
-        set = pd.read_csv(
-            self.save_location,
-            sep="\t",
-            names=[
-                "id_es",
-                "sentence_es",
-                "id_en",
-                "sentence_en",
-            ],
-        )
-
-        set["tokens"] = set["sentence_es"].astype(str).str.split().apply(len)
-        set = set[set["tokens"] >= 3]
-
-        set.drop_duplicates(subset=["sentence_es"], keep="first")
-
-        return set.sample(frac=1)
+        return frame
 
 
 class TargetSentencesFull:
@@ -85,7 +59,7 @@ class TargetSentencesFull:
     def __init__(self):
         self.source_location = shared_config.SENTENCE_SOURCE
         self.save_location = shared_config.SENTENCE_WRITE_LOCATION
-        self.load()
+        self.set = self.load()
         self.set = self.sentences_filter()
 
     def load(self) -> pd.DataFrame:
@@ -134,8 +108,7 @@ class TargetMissingWord(TargetSentencesFull):
 
 if __name__ == "__main__":
     s = TargetSentencesFull().load()
-    # _ = TargetWords().download()
-    # w = TargetWords().load()
+    w = TargetWords().load()
     # _ = TargetSentences().download()
 
     breakpoint()
