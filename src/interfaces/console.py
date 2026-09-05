@@ -3,7 +3,7 @@
 import sys
 
 from models.exception_types import GameMenuChange
-from models.question_types import Question, QuestionStats
+from models.question_types import Question, QuestionSentencePartial, QuestionStats
 from models.translation_types import TranslationResponse
 from utilities.text_utils import color_wrap
 
@@ -33,6 +33,12 @@ class ConsoleInterface:
         2: Words 
 """
 
+        self.question_sentence_miss = """    Attempts: {attempts} Success Rate: {pass_rate}
+    Themes: add_me
+    Translate: 
+        {question_target}
+        {question_source}
+"""
         self.question_view = """    Attempts: {attempts} Success Rate: {pass_rate}
     Themes: add_me
     Translate: {question}
@@ -51,6 +57,16 @@ class ConsoleInterface:
         """Handle a game mode change from the user"""
         if input == "-x":
             raise GameMenuChange
+
+    def _handle_stats(self, stats):
+        if stats is None:
+            attempts = "0"
+            pass_rate = "?"
+        else:
+            attempts = stats.attempts
+            pass_rate = stats.pass_rate
+
+        return attempts, pass_rate
 
     def _display(self, content: str):
         """Send a message to the CLI"""
@@ -71,23 +87,31 @@ class ConsoleInterface:
         return self._display(self.menu_sort_view.format(err=color_wrap("red", val)))
 
     def menu_mode(self, misinput: bool = False):
-        """Show the user the menu"""
+        """Show the user the game mode menu"""
         val = "\n\tPrevious input cannot be parsed\n" if misinput else ""
 
         return self._display(self.menu_mode_view.format(err=color_wrap("red", val)))
 
     def question(self, question: Question, stats: QuestionStats | None) -> str:
         """Show a question to the user"""
-        if stats is None:
-            attempts = "0"
-            pass_rate = "?"
-        else:
-            attempts = stats.attempts
-            pass_rate = stats.pass_rate
+        attempts, pass_rate = self._handle_stats(stats)
 
         question_screen = self.question_view.format(
             question=color_wrap("blue", question.problem), attempts=attempts, pass_rate=pass_rate
         )
+
+        return self._display(question_screen)
+
+    def question_misssent(
+        self, question: QuestionSentencePartial, stats: QuestionStats | None
+    ) -> str:
+        """Show a question to the user"""
+        attempts, pass_rate = self._handle_stats(stats)
+
+        question_screen = self.question_view.format(
+            question=color_wrap("blue", question.problem), attempts=attempts, pass_rate=pass_rate
+        )
+
         return self._display(question_screen)
 
     def review(self, review: TranslationResponse):

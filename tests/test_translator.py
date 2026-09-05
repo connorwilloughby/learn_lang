@@ -26,7 +26,7 @@ class TestTranslator(unittest.TestCase):
         translator.model.encode = MagicMock(side_effect=encode_mocks)
 
         # act
-        score = translator.translate(a="hey", a_src="Hey", b="Hola")
+        score = translator.translate(a="hey", a_src="hey", b="Hola")
 
         # assert
         self.assertEqual(score, float64(1.0000000000000002))

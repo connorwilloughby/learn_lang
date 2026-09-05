@@ -9,7 +9,10 @@ class Translator:
     """The core class which handles all interactions with translations and maps"""
 
     def __init__(self) -> None:
-        self.model = SentenceTransformer("distiluse-base-multilingual-cased-v2")
+        self.model = SentenceTransformer(
+            "sentence-transformers/distiluse-base-multilingual-cased-v2",
+            cache_folder="/home/cw/.cache/huggingface/",
+        )
 
     def translate(self, a: str, b: str, a_src: str):
         """Determine the quality of a translation
@@ -27,7 +30,7 @@ class Translator:
             return np.float64(0.0)
 
         # HACK: because i cba to do lemas rn
-        if a_clean == b_clean:
+        if a_clean == b_clean or a_clean == a_src_clean:
             return np.float64(1.0)
 
         v1 = self.model.encode(a_clean)
